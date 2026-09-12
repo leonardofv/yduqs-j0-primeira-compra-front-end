@@ -1,15 +1,16 @@
 import { Box, Button, Divider, Drawer, IconButton, Typography } from "@mui/material";
-import type { CourseOffer } from './OfferCard';
 import closeIcon from '../../assets/close-icon.svg';
-import { useState } from "react";
 import InstallmentOptions from './InstallmentOptions';
 import EnrollmentMessage from "./EnrollmentMessage";
 import plusIcon from '../../assets/plus-icon.svg';
+import type { CourseOffer } from "../../types/offer";
 
-type OfferDetailsDrawerProps = {
+export type OfferDetailsDrawerProps = {
     offer: CourseOffer | null;
     open: boolean;
     onClose: () => void;
+    selectedInstallments: number;
+    onSelectInstallments: (installments: number) => void;
 };
 
 function SectionRow({ title }: { title: string }) {
@@ -35,8 +36,7 @@ function SectionRow({ title }: { title: string }) {
     );
 }
 
-function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
-    const [selectedInstallments, setSelectedInstallments ] = useState(offer?.price?.installments ?? 0);
+function OfferDetailsDrawer({ offer, open, onClose, selectedInstallments, onSelectInstallments }: OfferDetailsDrawerProps) {
 
     if (offer === null) return null;
 
@@ -89,7 +89,7 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                     <InstallmentOptions 
                         price={offer.price}
                         selectedInstallments={selectedInstallments}
-                        onSelect={setSelectedInstallments}
+                        onSelect={onSelectInstallments}
                     />
                 ) : (
                    <Box
