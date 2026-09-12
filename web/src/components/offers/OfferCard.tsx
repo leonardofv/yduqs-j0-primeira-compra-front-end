@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
 import EnrollmentMessage from "./EnrollmentMessage";
 import type { CourseOffer, OfferPrice } from "../../types/offer";
+import { useOffers } from "../../contexts/offers/OffersContext";
 
 function PriceDetails({ price }: { price: OfferPrice }) {
     return (
@@ -25,10 +26,10 @@ function PriceDetails({ price }: { price: OfferPrice }) {
 
 type OfferCardProps = {
     offer: CourseOffer;
-    onAdvance: () => void;
 }
 
-function OfferCard({ offer, onAdvance }: OfferCardProps) {
+function OfferCard({ offer }: OfferCardProps) {
+    const { openDetails } = useOffers();
     const { modality, shift, price, campus } = offer;
 
     return (
@@ -79,7 +80,7 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                     variant="contained"
                     color="secondary"
                     fullWidth
-                    onClick={onAdvance}
+                    onClick={() => openDetails(offer)}
                     sx={{
                         height: '48px',
                         borderRadius: '8px',

@@ -5,7 +5,7 @@ import { useOffers } from '../../contexts/offers/OffersContext';
 
 function OffersList() {
 
-    const { offers, selectedOffer, isDetailsOpen, openDetails, closeDetails, selectInstallments, selectedInstallments } = useOffers();
+    const { offers } = useOffers();
     const countLabel = offers.length === 1 ? '1 opção encontrada' : `${offers.length} opções encontradas`;
 
     return (
@@ -25,16 +25,10 @@ function OffersList() {
                 }}
             >
                 {offers.map((offer) => (
-                    <OfferCard key={offer.id} offer={offer} onAdvance={() => openDetails(offer)} />
+                    <OfferCard key={offer.id} offer={offer} />
                 ))}
             </Box>
-            <OfferDetailsDrawer 
-                offer={selectedOffer} 
-                open={isDetailsOpen} 
-                onClose={closeDetails} 
-                selectedInstallments={selectedInstallments}
-                onSelectInstallments={selectInstallments}
-            />
+            <OfferDetailsDrawer />
         </Box>
     );
 }

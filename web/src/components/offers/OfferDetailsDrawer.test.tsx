@@ -1,85 +1,94 @@
-import { describe, expect, it, vi } from 'vitest';
-import { screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithTheme } from '../../test/renderWithTheme';
-import OfferDetailsDrawer, { type OfferDetailsDrawerProps } from './OfferDetailsDrawer';
+import { OffersProvider } from '../../contexts/offers/OffersProvider';
+import { useOffers } from '../../contexts/offers/OffersContext';
+import OfferDetailsDrawer from './OfferDetailsDrawer';
 import { offerWithoutPrice, offerWithPrice } from '../../test/offerFixtures';
+import type { CourseOffer } from '../../types/offer';
 
-function renderDrawer(props: Partial<OfferDetailsDrawerProps> = {}) {
+function renderDrawer(offer: CourseOffer) {
+    function Harness() {
+        const { openDetails } = useOffers();
+
+        return (
+            <>
+                <button onClick={() => openDetails(offer)}>abrir detalhes</button>
+                <OfferDetailsDrawer />
+            </>
+        );
+    }
+
     return renderWithTheme(
-        <OfferDetailsDrawer
-            offer={offerWithPrice}
-            open
-            onClose={vi.fn()}
-            selectedInstallments={18}
-            onSelectInstallments={vi.fn()}
-            {...props}
-        />,
+        <OffersProvider>
+            <Harness />
+        </OffersProvider>,
     );
 }
 
+async function openDrawer(offer: CourseOffer) {
+    renderDrawer(offer);
+    await userEvent.click(screen.getByRole('button', { name: 'abrir detalhes' }));
+
+    return screen.getByRole('dialog');
+}
+
 describe('OfferDetailsDrawer', () => {
-    it('renders nothing when no offer was selected', () => {
-        renderDrawer({ offer: null });
+    it('renders nothing until an offer is opened', () => {
+        renderDrawer(offerWithPrice);
 
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('stays hidden while closed', () => {
-        renderDrawer({ open: false });
+    it('shows the details title when open', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        expect(drawer).toHaveAccessibleName('Mais detalhes');
     });
 
-    it('shows the details title when open', () => {
-        renderDrawer();
+    it('hides itself when the user dismisses it', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        expect(screen.getByRole('dialog')).toHaveAccessibleName('Mais detalhes');
+        await userEvent.click(within(drawer).getByRole('button', { name: 'Fechar' }));
+
+        await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     });
 
-    it('closes when the user dismisses it', async () => {
-        const onClose = vi.fn();
-        renderDrawer({ onClose });
+    it('preselects the installment plan advertised on the card', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        await userEvent.click(screen.getByRole('button', { name: 'Fechar' }));
-
-        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(within(drawer).getByRole('radio', { name: '18x R$ 169,95' })).toBeChecked();
     });
 
-    it('preselects the installment plan advertised on the card', () => {
-        renderDrawer();
+    it('keeps the plan picked by the user', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        expect(screen.getByRole('radio', { name: '18x R$ 169,95' })).toBeChecked();
+        await userEvent.click(within(drawer).getByRole('radio', { name: '12x R$ 247,50' }));
+
+        expect(within(drawer).getByRole('radio', { name: '12x R$ 247,50' })).toBeChecked();
+        expect(within(drawer).getByRole('radio', { name: '18x R$ 169,95' })).not.toBeChecked();
     });
 
-    it('reports the plan picked by the user', async () => {
-        const onSelectInstallments = vi.fn();
-        renderDrawer({ onSelectInstallments });
-
-        await userEvent.click(screen.getByRole('radio', { name: '12x R$ 247,50' }));
-
-        expect(onSelectInstallments).toHaveBeenCalledWith(12);
-    });
-
-    it('invites the user to enroll when the offer has no price', () => {
-        renderDrawer({ offer: offerWithoutPrice });
+    it('invites the user to enroll when the offer has no price', async () => {
+        const drawer = await openDrawer(offerWithoutPrice);
 
         expect(
-            screen.getByText('Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!'),
+            within(drawer).getByText('Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!'),
         ).toBeInTheDocument();
-        expect(screen.queryByRole('radio')).not.toBeInTheDocument();
+        expect(within(drawer).queryByRole('radio')).not.toBeInTheDocument();
     });
 
-    it('lists the expandable detail sections', () => {
-        renderDrawer();
+    it('lists the expandable detail sections', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        expect(screen.getByText('Sobre a Bolsa Incentivo')).toBeInTheDocument();
-        expect(screen.getByText('Resumo das suas escolhas')).toBeInTheDocument();
+        expect(within(drawer).getByText('Sobre a Bolsa Incentivo')).toBeInTheDocument();
+        expect(within(drawer).getByText('Resumo das suas escolhas')).toBeInTheDocument();
     });
 
-    it('offers a way to move forward with the chosen plan', () => {
-        renderDrawer();
+    it('offers a way to move forward with the chosen plan', async () => {
+        const drawer = await openDrawer(offerWithPrice);
 
-        expect(screen.getByRole('button', { name: 'Avançar' })).toBeInTheDocument();
+        expect(within(drawer).getByRole('button', { name: 'Avançar' })).toBeInTheDocument();
     });
 });

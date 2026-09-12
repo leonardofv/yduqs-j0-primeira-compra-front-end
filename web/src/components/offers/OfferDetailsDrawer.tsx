@@ -3,15 +3,7 @@ import closeIcon from '../../assets/close-icon.svg';
 import InstallmentOptions from './InstallmentOptions';
 import EnrollmentMessage from "./EnrollmentMessage";
 import plusIcon from '../../assets/plus-icon.svg';
-import type { CourseOffer } from "../../types/offer";
-
-export type OfferDetailsDrawerProps = {
-    offer: CourseOffer | null;
-    open: boolean;
-    onClose: () => void;
-    selectedInstallments: number;
-    onSelectInstallments: (installments: number) => void;
-};
+import { useOffers } from "../../contexts/offers/OffersContext";
 
 function SectionRow({ title }: { title: string }) {
     return (
@@ -36,15 +28,17 @@ function SectionRow({ title }: { title: string }) {
     );
 }
 
-function OfferDetailsDrawer({ offer, open, onClose, selectedInstallments, onSelectInstallments }: OfferDetailsDrawerProps) {
+function OfferDetailsDrawer() {
 
-    if (offer === null) return null;
+    const { selectedOffer, isDetailsOpen, closeDetails, selectedInstallments, selectInstallments } = useOffers();
+
+    if (selectedOffer === null) return null;
 
     return (
         <Drawer
             anchor="right"
-            open={open}
-            onClose={onClose}
+            open={isDetailsOpen}
+            onClose={closeDetails}
             slotProps={{
                 paper: {
                     role: 'dialog',
@@ -67,7 +61,7 @@ function OfferDetailsDrawer({ offer, open, onClose, selectedInstallments, onSele
                 <Typography id="offer-details-title" variant="h1" component="h2" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
                     Mais detalhes
                 </Typography>
-                <IconButton onClick={onClose} aria-label="Fechar" sx={{ p: '8px' }}>
+                <IconButton onClick={closeDetails} aria-label="Fechar" sx={{ p: '8px' }}>
                     <Box component="img" src={closeIcon} alt="" sx={{ width: '24px', height: '24px' }} />
                 </IconButton>
             </Box>
@@ -85,11 +79,11 @@ function OfferDetailsDrawer({ offer, open, onClose, selectedInstallments, onSele
                     pt: { xs: '16px', md: '24px' } 
                 }} 
             >
-                {offer.price ? (
+                {selectedOffer.price ? (
                     <InstallmentOptions 
-                        price={offer.price}
+                        price={selectedOffer.price}
                         selectedInstallments={selectedInstallments}
-                        onSelect={onSelectInstallments}
+                        onSelect={selectInstallments}
                     />
                 ) : (
                    <Box
