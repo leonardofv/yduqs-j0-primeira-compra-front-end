@@ -97,12 +97,12 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                             bgcolor: 'primary.main',
                             color: 'common.white',
                             px: { xs: '16px', md: '32px' },
-                            py: '16px',
+                            py: '24px',
                             mx: { xs: '-16px', md: '-32px' },
                             mt: { xs: '-16px', md: '-24px' },
                         }}
                     >
-                        <EnrollmentMessage />
+                        <EnrollmentMessage variant="drawer" />
                     </Box> 
                 )}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
