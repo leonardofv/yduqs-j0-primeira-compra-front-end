@@ -1,11 +1,18 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
-import infoIcon from '../../assets/info-icon.svg';
+import EnrollmentMessage from "./EnrollmentMessage";
+
+type InstallmentOption = {
+    installments: number;
+    installmentValue: string;
+    total: string;
+};
 
 type OfferPrice = {
     original: string;
     installments: number;
     installmentValue: string;
     cash: string;
+    installmentOptions: InstallmentOption[];
 };
 
 export type CourseOffer = {
@@ -22,7 +29,6 @@ const CARD_PADDING_INLINE = '16px';
 const BUTTON_HEIGHT = '48px';
 const BUTTON_RADIUS = '8px';
 const PRICE_FONT_SIZE = '40px';
-const INFO_ICON_SIZE = '24px';
 const ADDRESS_MAX_LINES = 2;
 const HEADER_TEXT_STYLE = { fontSize: '16px', fontWeight: 500, lineHeight: '22px' };
 
@@ -47,18 +53,12 @@ function PriceDetails({ price }: { price: OfferPrice }) {
     );
 };
 
-function EnrollmentMessage() {
-    return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <Box component="img" src={infoIcon} alt="" sx={{ width: INFO_ICON_SIZE, height: INFO_ICON_SIZE }} />
-            <Typography sx={{ fontSize: '14px', lineHeight: '19px' }}>
-                Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!
-            </Typography>
-        </Box>
-    );
-};
+type OfferCardProps = {
+    offer: CourseOffer;
+    onAdvance: () => void;
+}
 
-function OfferCard({ offer }: { offer: CourseOffer }) {
+function OfferCard({ offer, onAdvance }: OfferCardProps) {
     const { modality, shift, price, campus } = offer;
 
     return (
@@ -109,6 +109,7 @@ function OfferCard({ offer }: { offer: CourseOffer }) {
                     variant="contained"
                     color="secondary"
                     fullWidth
+                    onClick={onAdvance}
                     sx={{
                         height: BUTTON_HEIGHT,
                         borderRadius: BUTTON_RADIUS,
