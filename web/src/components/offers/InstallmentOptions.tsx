@@ -1,5 +1,5 @@
 import { Box, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from "@mui/material";
-import type { OfferPrice } from "./OfferCard";
+import type { OfferPrice } from "../../types/offer";
 
 type InstallmentOptionsProps = {
     price: OfferPrice;

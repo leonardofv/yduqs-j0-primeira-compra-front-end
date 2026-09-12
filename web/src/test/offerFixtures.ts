@@ -1,4 +1,5 @@
-import type { CourseOffer, OfferPrice } from '../components/offers/OfferCard';
+import type { CourseOffer, OfferPrice } from "../types/offer";
+
 
 export const priceFixture: OfferPrice = {
     original: 'R$ 4.752,00',

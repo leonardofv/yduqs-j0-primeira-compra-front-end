@@ -1,27 +1,36 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { renderWithTheme } from '../../test/renderWithTheme';
 import { offerWithoutPrice, offerWithPrice } from '../../test/offerFixtures';
+import { OffersProvider } from '../../contexts/offers/OffersProvider';
 import OfferCard from './OfferCard';
+import type { CourseOffer } from '../../types/offer';
+
+function renderCard(offer: CourseOffer) {
+    return renderWithTheme(
+        <OffersProvider>
+            <OfferCard offer={offer} />
+        </OffersProvider>,
+    );
+}
 
 describe('OfferCard', () => {
     it('shows the modality and the shift of the offer', () => {
-        renderWithTheme(<OfferCard offer={offerWithPrice} onAdvance={vi.fn()} />);
+        renderCard(offerWithPrice);
 
         expect(screen.getByText('Presencial')).toBeInTheDocument();
         expect(screen.getByText('Manhã')).toBeInTheDocument();
     });
 
     it('omits the shift when the offer has none', () => {
-        renderWithTheme(<OfferCard offer={offerWithoutPrice} onAdvance={vi.fn()} />);
+        renderCard(offerWithoutPrice);
 
         expect(screen.getByText('Digital (EaD)')).toBeInTheDocument();
         expect(screen.queryByText('Manhã')).not.toBeInTheDocument();
     });
 
     it('strikes through the original price and highlights the discounted one', () => {
-        renderWithTheme(<OfferCard offer={offerWithPrice} onAdvance={vi.fn()} />);
+        renderCard(offerWithPrice);
 
         expect(screen.getByText('R$ 4.752,00').tagName).toBe('S');
         expect(screen.getByText('18x')).toBeInTheDocument();
@@ -30,7 +39,7 @@ describe('OfferCard', () => {
     });
 
     it('invites the user to enroll when the offer has no price', () => {
-        renderWithTheme(<OfferCard offer={offerWithoutPrice} onAdvance={vi.fn()} />);
+        renderCard(offerWithoutPrice);
 
         expect(
             screen.getByText('Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!'),
@@ -39,18 +48,9 @@ describe('OfferCard', () => {
     });
 
     it('shows where the campus is', () => {
-        renderWithTheme(<OfferCard offer={offerWithPrice} onAdvance={vi.fn()} />);
+        renderCard(offerWithPrice);
 
         expect(screen.getByText(offerWithPrice.campus.name)).toBeInTheDocument();
         expect(screen.getByText(offerWithPrice.campus.address)).toBeInTheDocument();
-    });
-
-    it('advances when the user confirms the offer', async () => {
-        const onAdvance = vi.fn();
-        renderWithTheme(<OfferCard offer={offerWithPrice} onAdvance={onAdvance} />);
-
-        await userEvent.click(screen.getByRole('button', { name: 'Avançar' }));
-
-        expect(onAdvance).toHaveBeenCalledTimes(1);
     });
 });
