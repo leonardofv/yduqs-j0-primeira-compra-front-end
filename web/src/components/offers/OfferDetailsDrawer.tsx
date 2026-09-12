@@ -3,6 +3,8 @@ import type { CourseOffer } from './OfferCard';
 import closeIcon from '../../assets/close-icon.svg';
 import { useState } from "react";
 import InstallmentOptions from './InstallmentOptions';
+import EnrollmentMessage from "./EnrollmentMessage";
+import plusIcon from '../../assets/plus-icon.svg';
 
 const DRAWER_WIDTH = { xs: '100%', md: '600px' };
 const CONTENT_PADDING_INLINE = { xs: '16px', md: '32px' };
@@ -13,6 +15,29 @@ type OfferDetailsDrawerProps = {
     open: boolean;
     onClose: () => void;
 };
+
+function SectionRow({ title }: { title: string }) {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '8px',
+                px: '16px',
+                py: '16px',
+                border: 1,
+                borderColor: 'divider',
+                borderRadius: '4px',
+            }}
+        >
+            <Typography sx={{ fontSize: '16px', fontWeight: 500, lineHeight: 1.15 }}>{title}</Typography>
+            <Box sx={{ display: 'flex', flexShrink: 0, width: '24px', height: '24px', alignItems: 'center', justifyContent: 'center' }}>
+                <Box component="img" src={plusIcon} alt="" sx={{ width: '16px', height: '16px' }} />
+            </Box>
+        </Box>
+    );
+}
 
 function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
     const [selectedInstallments, setSelectedInstallments ] = useState(offer?.price?.installments ?? 0);
@@ -46,7 +71,7 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                 <Typography id={TITLE_ID} variant="h1" component="h2" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
                     Mais detalhes
                 </Typography>
-                <IconButton onClick={onClose} aria-label="Fechar" sx={{ p: '12px' }}>
+                <IconButton onClick={onClose} aria-label="Fechar" sx={{ p: '8px' }}>
                     <Box component="img" src={closeIcon} alt="" sx={{ width: '24px', height: '24px' }} />
                 </IconButton>
             </Box>
@@ -70,10 +95,27 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                         selectedInstallments={selectedInstallments}
                         onSelect={setSelectedInstallments}
                     />
-                ) : null}
+                ) : (
+                   <Box
+                        sx={{
+                            bgcolor: 'primary.main',
+                            color: 'common.white',
+                            px: CONTENT_PADDING_INLINE,
+                            py: '16px',
+                            mx: { xs: '-16px', md: '-32px' },
+                            mt: { xs: '-16px', md: '-24px' },
+                        }}
+                    >
+                        <EnrollmentMessage />
+                    </Box> 
+                )}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <SectionRow title="Sobre a Bolsa Incentivo" />
+                    <SectionRow title="Resumo das suas escolhas" />
+              </Box>
             </Box>
 
-            <Box sx={{ px: CONTENT_PADDING_INLINE, pt: '24px', pb: { xs: '16px', md: '24px' } }}>
+            <Box sx={{ px: CONTENT_PADDING_INLINE, pt: { xs: '16px', md: '24px' }, pb: { xs: '16px', md: '24px' } }}>
                 <Button
                     variant="contained"
                     color="secondary"
