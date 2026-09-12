@@ -7,7 +7,7 @@ type InstallmentOption = {
     total: string;
 };
 
-type OfferPrice = {
+export type OfferPrice = {
     original: string;
     installments: number;
     installmentValue: string;

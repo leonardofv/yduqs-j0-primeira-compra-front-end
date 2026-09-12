@@ -78,7 +78,12 @@ function OffersList() {
                     <OfferCard key={offer.id} offer={offer} onAdvance={() => openDetails(offer)} />
                 ))}
             </Box>
-            <OfferDetailsDrawer offer={selectedOffer} open={isDetailsOpen} onClose={closeDetails} />
+            <OfferDetailsDrawer 
+                key={selectedOffer?.id}
+                offer={selectedOffer} 
+                open={isDetailsOpen} 
+                onClose={closeDetails} 
+            />
         </Box>
     );
 }

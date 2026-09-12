@@ -1,6 +1,8 @@
 import { Box, Button, Divider, Drawer, IconButton, Typography } from "@mui/material";
 import type { CourseOffer } from './OfferCard';
 import closeIcon from '../../assets/close-icon.svg';
+import { useState } from "react";
+import InstallmentOptions from './InstallmentOptions';
 
 const DRAWER_WIDTH = { xs: '100%', md: '600px' };
 const CONTENT_PADDING_INLINE = { xs: '16px', md: '32px' };
@@ -13,6 +15,8 @@ type OfferDetailsDrawerProps = {
 };
 
 function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
+    const [selectedInstallments, setSelectedInstallments ] = useState(offer?.price?.installments ?? 0);
+
     if (offer === null) return null;
 
     return (
@@ -49,7 +53,25 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
 
             <Divider />
 
-            <Box sx={{ flex: 1, overflowY: 'auto', px: CONTENT_PADDING_INLINE, pt: { xs: '16px', md: '24px' } }} />
+            <Box 
+                sx={{ 
+                    flex: 1, 
+                    overflowY: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: { xs: '24px', md: '32px' }, 
+                    px: CONTENT_PADDING_INLINE, 
+                    pt: { xs: '16px', md: '24px' } 
+                }} 
+            >
+                {offer.price ? (
+                    <InstallmentOptions 
+                        price={offer.price}
+                        selectedInstallments={selectedInstallments}
+                        onSelect={setSelectedInstallments}
+                    />
+                ) : null}
+            </Box>
 
             <Box sx={{ px: CONTENT_PADDING_INLINE, pt: '24px', pb: { xs: '16px', md: '24px' } }}>
                 <Button
