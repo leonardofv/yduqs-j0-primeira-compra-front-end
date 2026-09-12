@@ -1,11 +1,6 @@
 import Box from '@mui/material/Box';
 import estacioLogo from '../../assets/estacio-logo.svg';
 
-const HEADER_HEIGHT = { xs: 64, md: 88 };
-const HEADER_PADDING_INLINE = { xs: '16px', md: '88px' };
-const LOGO_WIDTH = { xs: 127, md: 159 };
-const LOGO_HEIGHT = { xs: 32, md: 40 };
-
 function Header() {
   return (
     <Box
@@ -13,8 +8,8 @@ function Header() {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        height: HEADER_HEIGHT,
-        px: HEADER_PADDING_INLINE,
+        height: { xs: 64, md: 88 },
+        px: { xs: '16px', md: '88px' },
         bgcolor: 'common.white',
       }}
     >
@@ -22,7 +17,7 @@ function Header() {
         component="img"
         src={estacioLogo}
         alt="Estácio"
-        sx={{ display: 'block', width: LOGO_WIDTH, height: LOGO_HEIGHT }}
+        sx={{ display: 'block', width: { xs: 127, md: 159 }, height: { xs: 32, md: 40 } }}
       />
     </Box>
   );

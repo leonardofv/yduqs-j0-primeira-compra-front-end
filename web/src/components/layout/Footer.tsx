@@ -3,14 +3,6 @@ import estacioLogo from '../../assets/estacio-logo-footer.svg';
 import foneIcon from '../../assets/telefone-icon.svg';
 import whatsappIcon from '../../assets/whatsapp-icon.svg';
 
-const FOOTER_HEIGHT = { xs: 64, md: 88 };
-const FOOTER_PADDING_INLINE = { xs: '16px', md: '88px' };
-const FOOTER_OVERLAY = 'rgba(255, 255, 255, 0.12)';
-const LOGO_WIDTH = { xs: 127, md: 159 };
-const LOGO_HEIGHT = { xs: 32, md: 40 };
-const CONTACTS_GAP = '56px';
-const PHONE_NUMBER = '0800 771 5055';
-
 type ContactItemsProps = {
     icon: string;
     label: string;
@@ -42,20 +34,20 @@ function Footer() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                height: FOOTER_HEIGHT,
-                px: FOOTER_PADDING_INLINE,
+                height: { xs: 64, md: 88 },
+                px: { xs: '16px', md: '88px' },
                 bgcolor: 'primary.dark',
-                backgroundImage: `linear-gradient(${FOOTER_OVERLAY}, ${FOOTER_OVERLAY})`,
+                backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12))',
             }}
         >
             <Box
                 component="img"
                 src={estacioLogo}
                 alt="Estácio"
-                sx={{ display: 'block', width: LOGO_WIDTH, height: LOGO_HEIGHT }}
+                sx={{ display: 'block', width: { xs: 127, md: 159 }, height: { xs: 32, md: 40 } }}
             />
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: CONTACTS_GAP }}>
-                <ContactItem icon={foneIcon} label={PHONE_NUMBER} />
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: '56px' }}>
+                <ContactItem icon={foneIcon} label="0800 771 5055" />
                 <ContactItem icon={whatsappIcon} label="Precisa de ajuda?" />
             </Box>
         </Box>
