@@ -23,15 +23,6 @@ export type CourseOffer = {
     campus: { name: string, address: string };
 };
 
-const CARD_WIDTH = { xs: '100%', md: '376px' };
-const CARD_RADIUS = '4px';
-const CARD_PADDING_INLINE = '16px';
-const BUTTON_HEIGHT = '48px';
-const BUTTON_RADIUS = '8px';
-const PRICE_FONT_SIZE = '40px';
-const ADDRESS_MAX_LINES = 2;
-const HEADER_TEXT_STYLE = { fontSize: '16px', fontWeight: 500, lineHeight: '22px' };
-
 function PriceDetails({ price }: { price: OfferPrice }) {
     return (
         <Box>
@@ -42,7 +33,7 @@ function PriceDetails({ price }: { price: OfferPrice }) {
                 <Typography sx={{ fontSize: '16px', fontWeight: 500, lineHeight: '22px' }}>
                     {price.installments}x
                 </Typography>
-                <Typography sx={{ fontSize: PRICE_FONT_SIZE, fontWeight: 600, lineHeight: '46px' }}>
+                <Typography sx={{ fontSize: '40px', fontWeight: 600, lineHeight: '46px' }}>
                     {price.installmentValue}
                 </Typography>
             </Box>
@@ -65,10 +56,10 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
         <Box
             component="article"
             sx={{
-                width: CARD_WIDTH,
+                width: { xs: '100%', md: '376px' },
                 border: 1,
                 borderColor: 'primary.main',
-                borderRadius: CARD_RADIUS,
+                borderRadius: '4px',
                 overflow: 'hidden',
             }}
         >
@@ -77,17 +68,17 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    px: CARD_PADDING_INLINE,
+                    px: '16px',
                     py: '8px',
                     bgcolor: 'primary.dark',
                     color: 'common.white',
                 }}
             >
-                <Typography sx={HEADER_TEXT_STYLE}>{modality}</Typography>
+                <Typography sx={{ fontSize: '16px', fontWeight: 500, lineHeight: '22px' }}>{modality}</Typography>
                 {shift && (
                     <>
                         <Divider orientation="vertical" flexItem sx={{ borderColor: 'common.white' }} />
-                        <Typography sx={HEADER_TEXT_STYLE}>{shift}</Typography>
+                        <Typography sx={{ fontSize: '16px', fontWeight: 500, lineHeight: '22px' }}>{shift}</Typography>
                     </>
                 )}
             </Box>
@@ -97,7 +88,7 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '24px',
-                    px: CARD_PADDING_INLINE,
+                    px: '16px',
                     pt: '24px',
                     pb: '16px',
                     bgcolor: 'primary.main',
@@ -111,8 +102,8 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                     fullWidth
                     onClick={onAdvance}
                     sx={{
-                        height: BUTTON_HEIGHT,
-                        borderRadius: BUTTON_RADIUS,
+                        height: '48px',
+                        borderRadius: '8px',
                         fontSize: '16px',
                         fontWeight: 500,
                         lineHeight: '16px',
@@ -122,7 +113,7 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                 </Button>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px', px: CARD_PADDING_INLINE, py: '16px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px', px: '16px', py: '16px' }}>
                 <Typography noWrap sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '19px' }}>
                     {campus.name}
                 </Typography>
@@ -132,7 +123,7 @@ function OfferCard({ offer, onAdvance }: OfferCardProps) {
                         lineHeight: '16px',
                         color: 'text.secondary',
                         display: '-webkit-box',
-                        WebkitLineClamp: ADDRESS_MAX_LINES,
+                        WebkitLineClamp: 2,
                         WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
                     }}

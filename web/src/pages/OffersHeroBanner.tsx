@@ -1,10 +1,5 @@
 import { Box, Typography }  from "@mui/material";
 
-const BANNER_PADDING_INLINE = { xs: '16px', md: '88px' };
-const BANNER_PADDING_BLOCK = { xs: '24px', md: '40px' };
-const TEXT_GAP = '8px';
-const TITLE_FONT_SIZE = { xs: '24px', md: '32px' };
-
 function OffersHeroBanner() {
     return (
         <Box
@@ -12,14 +7,14 @@ function OffersHeroBanner() {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: TEXT_GAP,
-                px: BANNER_PADDING_INLINE,
-                py: BANNER_PADDING_BLOCK,
+                gap: '8px',
+                px: { xs: '16px', md: '88px' },
+                py: { xs: '24px', md: '40px' },
                 bgcolor: 'primary.main',
                 color: 'common.white'
             }}
         >
-            <Typography variant="h1" sx={{ fontSize: TITLE_FONT_SIZE }}>
+            <Typography variant="h1" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
                 Vamos começar, escolha as opções do seu curso
             </Typography>
             <Typography variant="body1">

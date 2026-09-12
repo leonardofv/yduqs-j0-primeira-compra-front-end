@@ -3,11 +3,6 @@ import OfferCard, { type CourseOffer } from './OfferCard';
 import { useState } from 'react';
 import OfferDetailsDrawer from './OfferDetailsDrawer';
 
-const SECTION_PADDING_INLINE = { xs: '16px', md: '88px' };
-const SECTION_PADDING_TOP = { xs: '24px', md: '32px' };
-const SECTION_PADDING_BOTTOM = { xs: '24px', md: '56px' };
-const CARDS_GAP = '24px';
-
 const OFFERS: CourseOffer[] = [
     {
         id: '1',
@@ -61,7 +56,7 @@ function OffersList() {
     return (
         <Box
             component="section"
-            sx={{ px: SECTION_PADDING_INLINE, pt: SECTION_PADDING_TOP, pb: SECTION_PADDING_BOTTOM }}
+            sx={{ px: { xs: '16px', md: '88px' }, pt: { xs: '24px', md: '32px' }, pb: { xs: '24px', md: '56px' } }}
         >
             <Typography sx={{ fontSize: '14px', lineHeight: '19px', display: { xs: 'none', md: 'block' }, mb: '16px' }}>
                 {countLabel}
@@ -71,7 +66,7 @@ function OffersList() {
                     display: 'flex',
                     flexDirection: { xs: 'column', md: 'row' },
                     alignItems: { md: 'flex-start' },
-                    gap: CARDS_GAP,
+                    gap: '24px',
                 }}
             >
                 {OFFERS.map((offer) => (

@@ -6,10 +6,6 @@ import InstallmentOptions from './InstallmentOptions';
 import EnrollmentMessage from "./EnrollmentMessage";
 import plusIcon from '../../assets/plus-icon.svg';
 
-const DRAWER_WIDTH = { xs: '100%', md: '600px' };
-const CONTENT_PADDING_INLINE = { xs: '16px', md: '32px' };
-const TITLE_ID = 'offer-details-title';
-
 type OfferDetailsDrawerProps = {
     offer: CourseOffer | null;
     open: boolean;
@@ -52,8 +48,8 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
             slotProps={{
                 paper: {
                     role: 'dialog',
-                    'aria-labelledby': TITLE_ID,
-                    sx: { width: DRAWER_WIDTH, display: 'flex', flexDirection: 'column', overflow: 'hidden' },
+                    'aria-labelledby': 'offer-details-title',
+                    sx: { width: { xs: '100%', md: '600px' }, display: 'flex', flexDirection: 'column', overflow: 'hidden' },
                 },
             }}
         >
@@ -63,12 +59,12 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: '24px',
-                    px: CONTENT_PADDING_INLINE,
+                    px: { xs: '16px', md: '32px' },
                     pr: '16px',
                     py: { xs: '20px', md: '24px' },
                 }}
             >
-                <Typography id={TITLE_ID} variant="h1" component="h2" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
+                <Typography id="offer-details-title" variant="h1" component="h2" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
                     Mais detalhes
                 </Typography>
                 <IconButton onClick={onClose} aria-label="Fechar" sx={{ p: '8px' }}>
@@ -85,7 +81,7 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: { xs: '24px', md: '32px' }, 
-                    px: CONTENT_PADDING_INLINE, 
+                    px: { xs: '16px', md: '32px' }, 
                     pt: { xs: '16px', md: '24px' } 
                 }} 
             >
@@ -100,7 +96,7 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
                         sx={{
                             bgcolor: 'primary.main',
                             color: 'common.white',
-                            px: CONTENT_PADDING_INLINE,
+                            px: { xs: '16px', md: '32px' },
                             py: '16px',
                             mx: { xs: '-16px', md: '-32px' },
                             mt: { xs: '-16px', md: '-24px' },
@@ -115,7 +111,7 @@ function OfferDetailsDrawer({ offer, open, onClose }: OfferDetailsDrawerProps) {
               </Box>
             </Box>
 
-            <Box sx={{ px: CONTENT_PADDING_INLINE, pt: { xs: '16px', md: '24px' }, pb: { xs: '16px', md: '24px' } }}>
+            <Box sx={{ px: { xs: '16px', md: '32px' }, pt: { xs: '16px', md: '24px' }, pb: { xs: '16px', md: '24px' } }}>
                 <Button
                     variant="contained"
                     color="secondary"
