@@ -19,4 +19,22 @@ export const theme = createTheme({
         body2: { letterSpacing: 0 },
         button: { textTransform: 'none', letterSpacing: 0 },
     },
+    components: {
+        MuiInputLabel: {
+            styleOverrides: {
+                root: { color: '#6C6C6C' }
+            }
+        },
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: { color: '#545454', lineHeight: '16px' },
+                contained: { marginLeft: '12px', marginRight: '12px' }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: { height: '48px', borderRadius: '8px', fontSize: '16px', fontWeight: 500, lineHeight: '16px' },
+            },
+        }
+    }
 });
