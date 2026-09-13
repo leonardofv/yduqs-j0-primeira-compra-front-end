@@ -1,9 +1,12 @@
-import { Box, Button, Divider, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Divider, Drawer, IconButton, Typography } from "@mui/material";
 import closeIcon from '../../assets/close-icon.svg';
 import InstallmentOptions from './InstallmentOptions';
 import EnrollmentMessage from "./EnrollmentMessage";
 import plusIcon from '../../assets/plus-icon.svg';
 import { useOffers } from "../../contexts/offers/OffersContext";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { simulateRequest } from "../../lib/simulateRequest";
 
 function SectionRow({ title }: { title: string }) {
     return (
@@ -31,6 +34,8 @@ function SectionRow({ title }: { title: string }) {
 function OfferDetailsDrawer() {
 
     const { selectedOffer, isDetailsOpen, closeDetails, selectedInstallments, selectInstallments } = useOffers();
+    const navigate = useNavigate();
+    const [isAdvancing, setIsAdvancing] = useState(false);
 
     if (selectedOffer === null) return null;
 
@@ -53,7 +58,7 @@ function OfferDetailsDrawer() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: '24px',
-                    px: { xs: '16px', md: '32px' },
+                    pl: { xs: '16px', md: '32px' },
                     pr: '16px',
                     py: { xs: '20px', md: '24px' },
                 }}
@@ -105,12 +110,18 @@ function OfferDetailsDrawer() {
               </Box>
             </Box>
 
-            <Box sx={{ px: { xs: '16px', md: '32px' }, pt: { xs: '16px', md: '24px' }, pb: { xs: '16px', md: '24px' } }}>
+            <Box sx={{ px: { xs: '16px', md: '32px' }, py: { xs: '16px', md: '24px' } }}>
                 <Button
                     variant="contained"
                     color="secondary"
                     fullWidth
-                    sx={{ height: '48px', borderRadius: '8px', fontSize: '16px', fontWeight: 500, lineHeight: '16px' }}
+                    disabled={isAdvancing}
+                    startIcon={isAdvancing ? <CircularProgress size={16} color="inherit" /> : null}
+                    onClick={async () => { 
+                        setIsAdvancing(true);
+                        await simulateRequest();
+                        closeDetails(); 
+                        navigate('/dados-pessoais')}}
                 >
                     Avançar
                 </Button>

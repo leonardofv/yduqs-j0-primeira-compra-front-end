@@ -81,13 +81,6 @@ function OfferCard({ offer }: OfferCardProps) {
                     color="secondary"
                     fullWidth
                     onClick={() => openDetails(offer)}
-                    sx={{
-                        height: '48px',
-                        borderRadius: '8px',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                        lineHeight: '16px',
-                    }}
                 >
                     Avançar
                 </Button>
