@@ -1,10 +1,12 @@
-import { Box, Button, Divider, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Divider, Drawer, IconButton, Typography } from "@mui/material";
 import closeIcon from '../../assets/close-icon.svg';
 import InstallmentOptions from './InstallmentOptions';
 import EnrollmentMessage from "./EnrollmentMessage";
 import plusIcon from '../../assets/plus-icon.svg';
 import { useOffers } from "../../contexts/offers/OffersContext";
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { simulateRequest } from "../../lib/simulateRequest";
 
 function SectionRow({ title }: { title: string }) {
     return (
@@ -33,6 +35,7 @@ function OfferDetailsDrawer() {
 
     const { selectedOffer, isDetailsOpen, closeDetails, selectedInstallments, selectInstallments } = useOffers();
     const navigate = useNavigate();
+    const [isAdvancing, setIsAdvancing] = useState(false);
 
     if (selectedOffer === null) return null;
 
@@ -112,7 +115,13 @@ function OfferDetailsDrawer() {
                     variant="contained"
                     color="secondary"
                     fullWidth
-                    onClick={() => { closeDetails(); navigate('/dados-pessoais'); }}
+                    disabled={isAdvancing}
+                    startIcon={isAdvancing ? <CircularProgress size={16} color="inherit" /> : null}
+                    onClick={async () => { 
+                        setIsAdvancing(true);
+                        await simulateRequest();
+                        closeDetails(); 
+                        navigate('/dados-pessoais')}}
                 >
                     Avançar
                 </Button>
