@@ -1,19 +1,19 @@
-import { Box } from '@mui/material';
 import Footer from './components/layout/Footer';
-import Header from './components/layout/Header';
-import OffersList from './components/offers/OffersList';
-import OffersHeroBanner from './pages/OffersHeroBanner';
+import { Route, Routes } from 'react-router';
+import OffersPage from './pages/OffersPage';
+import PersonalDataPage from './pages/PersonalDataPage';
+import Layout from './components/layout/Layout';
 
 function App() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header />
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        <OffersHeroBanner />
-        <OffersList />
-      </Box>
-      <Footer />
-    </Box>
+    <Routes>
+        <Route element={<Layout footer={<Footer />} />}>
+            <Route path='/' element={<OffersPage />} />
+        </Route>
+        <Route element={<Layout footer={<Footer variant="enrollment" />} />}>
+            <Route path='/dados-pessoais' element={<PersonalDataPage />} />
+        </Route>
+    </Routes>
   )
 }
 
