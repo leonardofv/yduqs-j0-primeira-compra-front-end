@@ -1,4 +1,4 @@
-type InstallmentOption = {
+export type InstallmentOption = {
     installments: number;
     installmentValue: string;
     total: string;
