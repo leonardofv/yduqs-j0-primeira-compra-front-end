@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import { OffersProvider } from '../../contexts/offers/OffersProvider';
-import { useOffers } from '../../contexts/offers/OffersContext';
-import OfferDetailsDrawer from './OfferDetailsDrawer';
-import { offerWithoutPrice, offerWithPrice } from '../../test/offerFixtures';
-import type { CourseOffer } from '../../types/offer';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import { OffersProvider } from '../../../contexts/offers/OffersProvider';
+import { useOffers } from '../../../contexts/offers/OffersContext';
+import OfferDetailsDrawer from '../OfferDetailsDrawer';
+import { offerWithoutPrice, offerWithPrice } from '../../../test/offerFixtures';
+import type { CourseOffer } from '../../../types/offer';
 
 function renderDrawer(offer: CourseOffer) {
     function Harness() {

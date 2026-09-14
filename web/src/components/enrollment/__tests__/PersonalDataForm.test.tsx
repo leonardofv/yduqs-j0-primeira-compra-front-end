@@ -1,8 +1,8 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import PersonalDataForm from './PersonalDataForm';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import PersonalDataForm from '../PersonalDataForm';
 
 // Built from the current date so the minimum age rule keeps holding as time passes.
 function birthDateYearsAgo(years: number): string {

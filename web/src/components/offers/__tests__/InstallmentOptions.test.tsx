@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import { priceFixture } from '../../test/offerFixtures';
-import InstallmentOptions from './InstallmentOptions';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import { priceFixture } from '../../../test/offerFixtures';
+import InstallmentOptions from '../InstallmentOptions';
 
 function renderOptions(selectedInstallments = priceFixture.installments) {
     const onSelect = vi.fn();
