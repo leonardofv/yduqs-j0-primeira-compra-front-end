@@ -6,10 +6,10 @@ import { theme } from '../theme/theme';
 
 // Components read colors and typography from the app theme, and some of them
 // navigate, so tests must render them under the same providers used in main.tsx.
-export function renderWithTheme(ui: ReactNode) {
+export function renderWithTheme(ui: ReactNode, initialPath = '/') {
     return render(
         <ThemeProvider theme={theme}>
-            <MemoryRouter>{ui}</MemoryRouter>
+            <MemoryRouter initialEntries={[initialPath]}>{ui}</MemoryRouter>
         </ThemeProvider>,
     );
 }
