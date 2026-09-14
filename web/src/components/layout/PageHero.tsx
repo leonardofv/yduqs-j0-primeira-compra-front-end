@@ -1,6 +1,11 @@
-import { Box, Typography }  from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-function OffersHeroBanner() {
+type PageHeroProps = {
+    title: string;
+    subtitle?: string;
+};
+
+function PageHero({ title, subtitle }: PageHeroProps) {
     return (
         <Box
             component="section"
@@ -14,14 +19,12 @@ function OffersHeroBanner() {
                 color: 'common.white'
             }}
         >
-            <Typography variant="h1" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
-                Vamos começar, escolha as opções do seu curso
+            <Typography variant="h1">
+                {title}
             </Typography>
-            <Typography variant="body1">
-                Use os filtros para saber o preço do seu curso e fazer sua inscrição.
-            </Typography>
+            {subtitle && <Typography variant="body1">{subtitle}</Typography>}
         </Box>
     )
 }
 
-export default OffersHeroBanner;
+export default PageHero;

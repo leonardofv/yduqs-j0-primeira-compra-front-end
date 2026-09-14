@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import Footer from './Footer';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import Footer from '../Footer';
 
 describe('Footer', () => {
     it('renders a contentinfo landmark', () => {

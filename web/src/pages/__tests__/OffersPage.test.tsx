@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithTheme } from '../../test/renderWithTheme';
-import OffersList from './OffersList';
+import OffersPage from '../OffersPage';
 import { OffersProvider } from '../../contexts/offers/OffersProvider';
 
 const ENROLLMENT_MESSAGE = 'Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!';
@@ -14,35 +14,35 @@ async function advanceOnCard(index: number) {
     return screen.getByRole('dialog');
 }
 
-function renderOffersList() {
+function renderOffersPage() {
     return renderWithTheme(
         <OffersProvider>
-            <OffersList />
+            <OffersPage />
         </OffersProvider>,
     );
 }
 
-describe('OffersList', () => {
+describe('OffersPage', () => {
     it('tells how many offers were found', () => {
-        renderOffersList();
+        renderOffersPage();
 
         expect(screen.getByText('2 opções encontradas')).toBeInTheDocument();
     });
 
     it('renders one card per offer', () => {
-        renderOffersList();
+        renderOffersPage();
 
         expect(screen.getAllByRole('article')).toHaveLength(2);
     });
 
     it('keeps the details drawer closed until an offer is chosen', () => {
-        renderOffersList();
+        renderOffersPage();
 
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
     it('opens the details of the offer the user advanced on', async () => {
-        renderOffersList();
+        renderOffersPage();
 
         const drawer = await advanceOnCard(0);
 
@@ -50,7 +50,7 @@ describe('OffersList', () => {
     });
 
     it('keeps the plan picked by the user', async () => {
-        renderOffersList();
+        renderOffersPage();
         const drawer = await advanceOnCard(0);
 
         await userEvent.click(within(drawer).getByRole('radio', { name: '12x R$ 247,50' }));
@@ -60,7 +60,7 @@ describe('OffersList', () => {
     });
 
     it('opens the enrollment message for an offer without price', async () => {
-        renderOffersList();
+        renderOffersPage();
 
         const drawer = await advanceOnCard(1);
 
@@ -69,7 +69,7 @@ describe('OffersList', () => {
     });
 
     it('closes the details drawer when dismissed', async () => {
-        renderOffersList();
+        renderOffersPage();
         const drawer = await advanceOnCard(0);
 
         await userEvent.click(within(drawer).getByRole('button', { name: 'Fechar' }));

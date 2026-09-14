@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+const { breakpoints } = createTheme();
+
 export const theme = createTheme({
     palette: {
         common: { white: '#FFFFFF' },
@@ -12,11 +14,14 @@ export const theme = createTheme({
         h1: { 
             fontFamily: 'Montserrat, sans-serif', 
             fontWeight: 500, 
-            fontSize: '2rem', 
+            fontSize: '24px', 
             lineHeight: 1.2, 
+            letterSpacing: 0,
+            [breakpoints.up('md')]: { fontSize: '32px' },
         },
         body1: { letterSpacing: 0 },
         body2: { letterSpacing: 0 },
+        caption: { letterSpacing: 0 },
         button: { textTransform: 'none', letterSpacing: 0 },
     },
     components: {

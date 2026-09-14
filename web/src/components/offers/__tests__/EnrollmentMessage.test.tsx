@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import EnrollmentMessage from './EnrollmentMessage';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import EnrollmentMessage from '../EnrollmentMessage';
 
 const MESSAGE = 'Inscreva-se para saber tudo sobre os valores e garantir a sua vaga!';
 

@@ -1,4 +1,3 @@
-
 type InstallmentOption = {
     installments: number;
     installmentValue: string;
@@ -18,5 +17,8 @@ export type CourseOffer = {
     modality: string;
     shift?: string;
     price?: OfferPrice;
-    campus: { name: string, address: string };
+    campus: {
+        name: string;
+        address: string;
+    };
 };

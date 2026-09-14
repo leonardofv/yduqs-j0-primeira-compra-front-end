@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import { offerWithoutPrice, offerWithPrice } from '../../test/offerFixtures';
-import { OffersProvider } from '../../contexts/offers/OffersProvider';
-import OfferCard from './OfferCard';
-import type { CourseOffer } from '../../types/offer';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import { offerWithoutPrice, offerWithPrice } from '../../../test/offerFixtures';
+import { OffersProvider } from '../../../contexts/offers/OffersProvider';
+import OfferCard from '../OfferCard';
+import type { CourseOffer } from '../../../types/offer';
 
 function renderCard(offer: CourseOffer) {
     return renderWithTheme(

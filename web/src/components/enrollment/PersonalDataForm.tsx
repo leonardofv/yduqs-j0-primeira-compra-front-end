@@ -183,7 +183,7 @@ function PersonalDataForm() {
                         mt: '8px',
                         px: '24px',
                         minWidth: '114px',
-                        '&.Mui-disabled': { color: '#121212' },
+                        '&.Mui-disabled': { color: 'text.primary', opacity: 0.7 },
                     }}
                 >
                     {isSubmitting ? <CircularProgress size={20} color="inherit" /> : 'Avançar'}
