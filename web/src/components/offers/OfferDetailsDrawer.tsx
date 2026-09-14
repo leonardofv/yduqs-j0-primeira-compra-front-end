@@ -63,7 +63,7 @@ function OfferDetailsDrawer() {
                     py: { xs: '20px', md: '24px' },
                 }}
             >
-                <Typography id="offer-details-title" variant="h1" component="h2" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
+                <Typography id="offer-details-title" variant="h1" component="h2">
                     Mais detalhes
                 </Typography>
                 <IconButton onClick={closeDetails} aria-label="Fechar" sx={{ p: '8px' }}>

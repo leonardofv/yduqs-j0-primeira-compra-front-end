@@ -19,7 +19,7 @@ function PageHero({ title, subtitle }: PageHeroProps) {
                 color: 'common.white'
             }}
         >
-            <Typography variant="h1" sx={{ fontSize: { xs: '24px', md: '32px' } }}>
+            <Typography variant="h1">
                 {title}
             </Typography>
             {subtitle && <Typography variant="body1">{subtitle}</Typography>}
