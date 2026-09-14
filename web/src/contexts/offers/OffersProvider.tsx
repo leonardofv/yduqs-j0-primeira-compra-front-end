@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useCallback, useMemo, useState, type ReactNode } from "react";
 import type { CourseOffer } from "../../types/offer";
 import { OffersContext } from "./OffersContext";
 
@@ -42,30 +42,27 @@ export function OffersProvider({ children }: { children: ReactNode }) {
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const [selectedInstallments, setSelectedInstallments] = useState(0);
 
-    function openDetails(offer: CourseOffer) {
+    const openDetails = useCallback((offer: CourseOffer) => {
         setSelectedOffer(offer);
         setSelectedInstallments(offer.price?.installments ?? 0);
         setIsDetailsOpen(true);
-    };
+    }, []);
     
-    function closeDetails() {
-        setIsDetailsOpen(false);
-    };
+    const closeDetails = useCallback(() => setIsDetailsOpen(false), []);
     
+    const value = useMemo(() => ({
+        offers: OFFERS,
+        selectedOffer,
+        isDetailsOpen,
+        selectedInstallments,
+        openDetails,
+        closeDetails,
+        selectInstallments: setSelectedInstallments
+    }), [selectedOffer, isDetailsOpen, selectedInstallments, openDetails, closeDetails]);
+
     return (
-        <OffersContext.Provider
-            value={{
-                offers: OFFERS,
-                selectedOffer,
-                isDetailsOpen,
-                selectedInstallments,
-                openDetails,
-                closeDetails,
-                selectInstallments: setSelectedInstallments
-            }}
-        >
+        <OffersContext.Provider value={value}>
             {children}
         </OffersContext.Provider>
     );
-
 }
