@@ -1,17 +1,60 @@
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { validEnrollmentPayload } from '../../test/fixtures/enrollment-payload.js';
 import { CpfAlreadyRegisteredError } from './cpf-already-registered.error.js';
+import { EnrollmentNotFoundError } from './enrollment-not-found.error.js';
 import { EnrollmentsRepository } from './enrollments.repository.js';
 import { EnrollmentsService } from './enrollments.service.js';
 
 describe('EnrollmentsService', () => {
-  const repository = { create: vi.fn() };
+  const repository = { create: vi.fn(), findAll: vi.fn(), delete: vi.fn() };
   const service = new EnrollmentsService(
     repository as unknown as EnrollmentsRepository,
   );
 
   beforeEach(() => {
     repository.create.mockReset();
+    repository.findAll.mockReset();
+    repository.delete.mockReset();
+  });
+
+  it('deletes the enrollment with the given id', async () => {
+    repository.delete.mockResolvedValue(undefined);
+
+    await service.remove('1');
+
+    expect(repository.delete).toHaveBeenCalledWith('1');
+  });
+
+  it('returns a confirmation message after deleting', async () => {
+    repository.delete.mockResolvedValue(undefined);
+
+    await expect(service.remove('1')).resolves.toEqual({
+      message: 'Cadastro excluído com sucesso',
+    });
+  });
+
+  it('throws not found when the enrollment does not exist', async () => {
+    repository.delete.mockRejectedValue(new EnrollmentNotFoundError());
+
+    await expect(service.remove('1')).rejects.toThrow(
+      new NotFoundException('Cadastro não encontrado'),
+    );
+  });
+
+  it('rethrows unexpected repository errors when deleting', async () => {
+    const databaseDown = new Error('connection refused');
+    repository.delete.mockRejectedValue(databaseDown);
+
+    await expect(service.remove('1')).rejects.toBe(databaseDown);
+  });
+
+  it('lists all enrollments from the repository', async () => {
+    const enrollments = [
+      { ...validEnrollmentPayload, id: '1', createdAt: new Date() },
+    ];
+    repository.findAll.mockResolvedValue(enrollments);
+
+    await expect(service.findAll()).resolves.toEqual(enrollments);
   });
 
   it('stores cpf and phone as digits only', async () => {
