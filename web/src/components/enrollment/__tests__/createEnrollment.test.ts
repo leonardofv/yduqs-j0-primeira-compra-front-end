@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createEnrollment, GENERIC_ERROR_MESSAGE } from '../createEnrollment';
+import { createEnrollment } from '../createEnrollment';
 import type { PersonalData } from '../personalDataSchema';
 
 const personalData: PersonalData = {
@@ -62,13 +62,13 @@ describe('createEnrollment', () => {
     it('throws a generic message when the api answers without a json body', async () => {
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('Bad Gateway', { status: 502 })));
 
-        await expect(createEnrollment(personalData)).rejects.toThrow(GENERIC_ERROR_MESSAGE);
+        await expect(createEnrollment(personalData)).rejects.toThrow('Não foi possível enviar seus dados. Tente novamente.');
     });
 
     it('throws a generic message when the network fails', async () => {
         vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
 
-        await expect(createEnrollment(personalData)).rejects.toThrow(GENERIC_ERROR_MESSAGE);
+        await expect(createEnrollment(personalData)).rejects.toThrow('Não foi possível enviar seus dados. Tente novamente.');
     });
 
     it('does not call the api when its url is not configured', async () => {
