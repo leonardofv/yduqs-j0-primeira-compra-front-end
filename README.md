@@ -1,88 +1,116 @@
-# 🚀 Desafio Front End – Processo Seletivo
+# Primeira Compra – Estácio
 
-Bem-vindo(a)! Este é o repositório base para o **Desafio Front End** da nossa etapa de seleção de novos colaboradores.
+Aplicação da jornada de inscrição em cursos da Estácio, desenvolvida como solução do desafio técnico de front end do processo seletivo YDUQS.
 
----
+O usuário consulta as ofertas de um curso, compara as condições de pagamento e envia seus dados pessoais para se inscrever. O repositório tem duas aplicações:
 
-## 🎯 Objetivo
+- **`web/`**: front end em React, com as telas de ofertas e de dados pessoais.
+- **`api/`**: back end em NestJS, que valida e grava as inscrições no PostgreSQL.
 
-Construir uma aplicação **front end** onde usuários podem visualizar ofertas de cursos, selecionar um curso e realizar a matrícula.
+## Funcionalidades
 
-O **handoff de design** está disponível no Figma:  
-🔗 [Acessar Figma](https://www.figma.com/design/jJLBqZG5RLoL9pbviYvAZW/Teste---Desenvolvimento?node-id=8-2156&t=FjZv9T176fS24B4e-0)  
-🔑 **Senha:** `Teste-123`
+### Ofertas de curso
 
----
+- Listagem das ofertas disponíveis, com modalidade, turno, campus e endereço.
+- Painel lateral de detalhes com a simulação das opções de parcelamento e o total de cada uma.
+- Indicador de carregamento ao avançar para a inscrição.
 
-## 🛠️ Requisitos
+### Dados pessoais
 
-### Frontend (React + TypeScript)
-- Framework: **React**  
-- Gerenciamento de estado: **Context API**  
-- Validações de formulário (email, telefone, etc.)  
-- Feedback ao usuário (**loading, erros, sucesso**)  
-- Design responsivo  
-- Testes com **React Testing Library**
+- Formulário com nome completo, CPF, data de nascimento, e-mail, celular, ano de conclusão do ensino médio, aceite dos termos e opção de receber mensagens pelo WhatsApp.
+- Máscaras nos campos de CPF, data e celular.
+- Validação no próprio formulário: nome e sobrenome sem abreviações, CPF válido, idade mínima de 16 anos, e-mail válido e celular brasileiro.
+- Botão de envio habilitado apenas com o formulário válido e indicador de carregamento durante o envio.
+- Mensagens de sucesso e de erro após o envio.
 
-### Extras (opcional, diferencial)
-- Banco em **Docker** com migrations (**Prisma, TypeORM ou Sequelize**)  
-- Logs estruturados  
-- Uso de bibliotecas de UI como **shadcn/ui**, **Material UI (MUI)**, **Chakra UI** ou outras similares para acelerar o desenvolvimento do frontend
+### API de inscrições
 
-### Extra Backend (Node.js + TypeScript)
-- Framework: **NestJS**  
-- Banco de dados: **PostgreSQL ou MongoDB**  
-- Estrutura em camadas (**controllers, services, repositories**)  
-- Validações de entrada (ex.: email válido, campos obrigatórios)  
-- Documentação da API (**Swagger ou similar**)  
-- Testes automatizados (**unitários e integração**)
-  
----
+- `POST /enrollments`: cria uma inscrição.
+- `GET /enrollments`: lista as inscrições, das mais recentes para as mais antigas.
+- `DELETE /enrollments/:id`: exclui uma inscrição.
 
-## ✅ Regras Importantes
+## Tecnologias
 
-1. **Commits**: queremos acompanhar sua **evolução e raciocínio lógico**.  
-   - Faça **commits pequenos e frequentes**, mostrando sua linha de pensamento.  
-   - Não envie tudo em **um único commit final**.
+### Front end (`web/`)
 
-2. **Uso de IA**: você pode usar IA como **fonte de consulta**, mas **não é permitido** gerar **100% do projeto apenas com IA**. Queremos ver **seu raciocínio e implementação**.
+- [React 19](https://react.dev) com [TypeScript](https://www.typescriptlang.org)
+- [Vite](https://vite.dev) para desenvolvimento e build
+- [Material UI](https://mui.com) para os componentes de interface
+- [React Router](https://reactrouter.com) para as rotas
+- Context API para o estado das ofertas
+- [React Hook Form](https://react-hook-form.com) e [Zod](https://zod.dev) para formulário e validação
+- [react-number-format](https://s-yadav.github.io/react-number-format/) para as máscaras
+- [Brazilian Utils](https://brazilian-utils.com.br) e [date-fns](https://date-fns.org) para validar CPF, celular e datas
+- [Vitest](https://vitest.dev) e [React Testing Library](https://testing-library.com/docs/react-testing-library/intro) para os testes
+- ESLint
 
----
+### Back end (`api/`)
 
-## 📊 Critérios de Avaliação
+- [NestJS](https://nestjs.com) com TypeScript
+- [PostgreSQL](https://www.postgresql.org) rodando em [Docker Compose](https://docs.docker.com/compose/)
+- [Prisma](https://www.prisma.io) como ORM e para as migrations
+- [class-validator](https://github.com/typestack/class-validator) para validar a entrada
+- [Swagger](https://swagger.io) (`@nestjs/swagger`) para a documentação da API
+- [Vitest](https://vitest.dev) para os testes
+- Oxlint e Prettier
 
-- **Qualidade do código** → clareza, boas práticas, clean code.  
-- **Arquitetura** → separação de responsabilidades, escalabilidade.  
-- **Validações e UX** → feedback claro ao usuário para erros e sucesso.  
-- **Testes** → cobertura e qualidade dos testes.  
-- **Documentação** → README explicando o setup.  
+## Como rodar
 
----
+### Pré-requisitos
 
-## ▶️ Como começar
+- [Node.js](https://nodejs.org) 24
+- [Docker](https://www.docker.com) com Docker Compose
 
-1. Faça um **fork** deste repositório para a sua conta GitHub.  
-   - Clique no botão **Fork** no canto superior direito desta página.  
-   - Isso criará uma cópia do repositório no seu perfil.  
+Os comandos abaixo partem da raiz do repositório.
 
-2. Clone o repositório que você acabou de forkear para a sua máquina local:  
-   ```bash
-   git clone https://github.com/<seu-usuario>/yduqs-j0-primeira-compra-front-end.git
-   ```
+### 1. Banco de dados
 
-3. Acesse a pasta do projeto:  
-   ```bash
-   cd yduqs-j0-primeira-compra-front-end
-   ```
+```bash
+cd api
+docker compose up -d
+```
 
-4. Configure e rode o **frontend** de acordo com os requisitos definidos.  
+Sobe um PostgreSQL 17 na porta `5432`, com o banco `enrollments`.
 
-5. Desenvolva sua solução fazendo **commits pequenos e frequentes**, para que possamos acompanhar sua linha de raciocínio e evolução.  
+### 2. API
 
-6. Ao finalizar, envie o **link do seu fork** para avaliação.  
-   - Exemplo: `https://github.com/<seu-usuario>/yduqs-j0-primeira-compra-front-end`
+Ainda dentro de `api/`:
 
----
+```bash
+cp .env.example .env
+npm install
+npx prisma generate
+npx prisma migrate deploy
+npm run start:dev
+```
 
-Boa sorte! 🚀  
-Estamos ansiosos para ver sua solução.
+A API fica em `http://localhost:3000` e o Swagger em `http://localhost:3000/docs`.
+
+| Variável       | Descrição                                        |
+| -------------- | ------------------------------------------------ |
+| `DATABASE_URL` | String de conexão do PostgreSQL                  |
+| `WEB_ORIGIN`   | Origem do front end liberada no CORS             |
+
+### 3. Front end
+
+Em outro terminal, a partir da raiz:
+
+```bash
+cd web
+cp .env.example .env
+npm install
+npm run dev
+```
+
+A aplicação fica em `http://localhost:5173`.
+
+| Variável       | Descrição              |
+| -------------- | ---------------------- |
+| `VITE_API_URL` | Endereço base da API   |
+
+## Como usar
+
+1. Acesse `http://localhost:5173` para ver as ofertas do curso.
+2. Clique em Avançar numa oferta para abrir os detalhes e escolher o parcelamento.
+3. Clique em Avançar no painel e preencha o formulário de dados pessoais.
+4. Envie o formulário. A inscrição é gravada no banco e aparece em `GET /enrollments` (pelo Swagger, por exemplo).

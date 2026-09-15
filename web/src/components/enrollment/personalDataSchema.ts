@@ -2,7 +2,7 @@ import { isValidCpf, isValidMobilePhone } from '@brazilian-utils/brazilian-utils
 import { differenceInYears, isValid, parse } from 'date-fns';
 import { z } from 'zod';
 
-const parseBirthDate = (value: string) => parse(value, 'dd/MM/yyyy', new Date());
+export const parseBirthDate = (value: string) => parse(value, 'dd/MM/yyyy', new Date());
 
 export const personalDataSchema = z.object({
     fullName: z.string().trim()

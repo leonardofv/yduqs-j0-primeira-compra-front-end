@@ -16,8 +16,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { personalDataSchema, type PersonalData } from './personalDataSchema';
 import { PatternFormat } from 'react-number-format';
-import { simulateRequest } from '../../lib/simulateRequest';
 import { useState } from 'react';
+import { createEnrollment } from './createEnrollment';
 
 const currentYear = new Date().getFullYear();
 const graduationYears = Array.from({ length: 20 }, (_, index) => currentYear - index);
@@ -44,15 +44,20 @@ function PersonalDataForm() {
   });
 
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <>
       <Box
         component="form"
-        onSubmit={handleSubmit(async () => {
-          await simulateRequest();
-          reset();
-          setIsSuccessOpen(true);
+        onSubmit={handleSubmit(async (personalData) => {
+          try {
+            await createEnrollment(personalData);
+            reset();
+            setIsSuccessOpen(true);
+          } catch(error) {
+            setErrorMessage(error instanceof Error ? error.message : 'Não foi possível enviar seus dados. Tente novamente.');
+          }
         })}
         sx={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '660px' }}
       >
@@ -226,6 +231,16 @@ function PersonalDataForm() {
       >
         <Alert severity="success" variant="filled" onClose={() => setIsSuccessOpen(false)}>
           Dados enviados com sucesso
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={errorMessage !== null}
+        autoHideDuration={6000}
+        onClose={() => setErrorMessage(null)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert severity="error" variant="filled" onClose={() => setErrorMessage(null)}>
+          {errorMessage}
         </Alert>
       </Snackbar>
     </>
