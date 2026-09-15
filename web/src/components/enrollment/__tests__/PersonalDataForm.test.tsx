@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderWithTheme } from '../../../test/renderWithTheme';
 import PersonalDataForm from '../PersonalDataForm';
 
@@ -27,6 +27,11 @@ async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe('PersonalDataForm', () => {
+    afterEach(() => {
+        vi.unstubAllEnvs();
+        vi.unstubAllGlobals();
+    });
+
     it('keeps the submit button disabled while the form is empty', () => {
         renderWithTheme(<PersonalDataForm />);
 
@@ -105,5 +110,38 @@ describe('PersonalDataForm', () => {
         await user.type(phone, '11987654321');
 
         expect(phone).toHaveValue('(11) 98765-4321');
+    });
+
+    it('shows the success message and clears the form once the enrollment is saved', async () => {
+        vi.stubEnv('VITE_API_URL', 'http://api.test');
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('{}', { status: 201 })));
+        const user = userEvent.setup();
+        renderWithTheme(<PersonalDataForm />);
+
+        await fillValidForm(user);
+        await user.click(screen.getByRole('checkbox', { name: /Li e concordo com os termos do edital/ }));
+        await waitFor(() => expect(submitButton()).toBeEnabled());
+        await user.click(submitButton());
+
+        expect(await screen.findByText('Dados enviados com sucesso')).toBeInTheDocument();
+        expect(screen.getByLabelText('E-mail')).toHaveValue('');
+    });
+
+    it('shows the api error and keeps the typed data when the cpf is already registered', async () => {
+        vi.stubEnv('VITE_API_URL', 'http://api.test');
+        vi.stubGlobal(
+            'fetch',
+            vi.fn().mockResolvedValue(new Response(JSON.stringify({ message: 'CPF já cadastrado' }), { status: 409 })),
+        );
+        const user = userEvent.setup();
+        renderWithTheme(<PersonalDataForm />);
+
+        await fillValidForm(user);
+        await user.click(screen.getByRole('checkbox', { name: /Li e concordo com os termos do edital/ }));
+        await waitFor(() => expect(submitButton()).toBeEnabled());
+        await user.click(submitButton());
+
+        expect(await screen.findByText('CPF já cadastrado')).toBeInTheDocument();
+        expect(screen.getByLabelText('E-mail')).toHaveValue('maria@exemplo.com');
     });
 });
